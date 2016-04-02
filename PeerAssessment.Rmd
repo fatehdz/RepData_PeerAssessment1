@@ -49,7 +49,7 @@ summary(activity)
 1. Make a histogram of the total number of steps taken each day
 ```{r}
 tot_steps <- activity %>% group_by(date) %>% summarize(tot_steps = sum(steps, na.rm = TRUE))
-a<- ggplot(data = tot_steps, aes(x= date, y = tot_steps))+ geom_bar(stat = "identity")
+ggplot(data = tot_steps, aes(x= date, y = tot_steps))+ geom_bar(stat = "identity")
 ````
 
 2. Calculate and report the mean and median total number of steps taken per day
