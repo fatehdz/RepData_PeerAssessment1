@@ -22,8 +22,11 @@ require(lubridate)
 
 reading data from zip file
 ```{r}
-unzip("activity.zip")
-activity <- tbl_df(read.csv("activity.csv"))
+url<-c("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip")
+temp <- tempfile()
+download.file(url,temp)
+activity <- tbl_df(read.csv(unz(temp, "activity.csv")))
+
 ```
 
 inspecting our data
@@ -46,8 +49,7 @@ summary(activity)
 1. Make a histogram of the total number of steps taken each day
 ```{r}
 tot_steps <- activity %>% group_by(date) %>% summarize(tot_steps = sum(steps, na.rm = TRUE))
-a<- ggplot(data = tot_steps, aes(x= date, y = tot_steps))
-a+geom_histogram(stat = "identity")
+a<- ggplot(data = tot_steps, aes(x= date, y = tot_steps))+ geom_bar(stat = "identity")
 ````
 
 2. Calculate and report the mean and median total number of steps taken per day
@@ -102,11 +104,11 @@ daily number of steps?
 ```{r}
 tot_steps2 <- activity2 %>% group_by(date) %>% summarize(tot_steps = sum(steps, na.rm = TRUE))
 a<- ggplot(data = tot_steps2, aes(x= date, y = tot_steps))
-a+geom_histogram(stat = "identity")
+a+geom_bar(stat = "identity")
 activity2 %>% group_by(date) %>% summarize(mean_step =mean(steps, na.rm = TRUE), median_step = median (steps, na.rm = TRUE))
 ```
 
-Yes, the mean and median steps taken per day after imputing missing data is different from the those calculated on the first part of the assignment for the days where the missing data where present
+The mean and median steps taken per day after imputing missing data are the same as the ones calculated on the first part of the assignment except for the days where the missing data where present
 
 Imputing missing data with the avg daily steps change slightly the distribution
 
